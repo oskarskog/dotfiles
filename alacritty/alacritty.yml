@@ -1,0 +1,100 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+
+window:
+  title: Alacritty
+
+scrolling:
+  history: 10000
+
+# Font configuration
+font:
+  normal:
+    family: "Source Code Pro Medium"
+    style: Regular
+  bold:
+    family: "Source Code Pro Medium"
+    style: Bold
+  italic:
+    family: "Source Code Pro Light"
+    style: Italic
+  bold_italic:
+    family: "Source Code Pro Medium"
+    style: Bold Italic
+  size: 8.0
+
+# Colors (Ayu Dark)
+colors:
+  # Default colors
+  primary:
+    background: '#0A0E14'
+    foreground: '#B3B1AD'
+
+  # Normal colors
+  normal:
+    black: '#01060E'
+    red: '#EA6C73'
+    green: '#91B362'
+    yellow: '#F9AF4F'
+    blue: '#53BDFA'
+    magenta: '#FAE994'
+    cyan: '#90E1C6'
+    white: '#C7C7C7'
+
+  # Bright colors
+  bright:
+    black: '#686868'
+    red: '#F07178'
+    green: '#C2D94C'
+    yellow: '#FFB454'
+    blue: '#59C2FF'
+    magenta: '#FFEE99'
+    cyan: '#95E6CB'
+    white: '#FFFFFF'
+
+cursor:
+  style: Block
+
+# Live config reload (changes require restart)
+live_config_reload: true
+
+# Bindings are always filled by default, but will be replaced when a new
+# binding with the same triggers is defined. To unset a default binding, it can
+# be mapped to the `ReceiveChar` action. Alternatively, you can use `None` for
+# a no-op if you do not wish to receive input characters for that binding.
+key_bindings:
+  # (Windows, Linux, and BSD only)
+  #- { key: V,        mods: Control|Shift, action: Paste            }
+  #- { key: C,        mods: Control|Shift, action: Copy             }
+  #- { key: Insert,   mods: Shift,         action: PasteSelection   }
+  #- { key: Key0,     mods: Control,       action: ResetFontSize    }
+  #- { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: Add,      mods: Control,       action: IncreaseFontSize }
+  - { key: Subtract, mods: Control,       action: DecreaseFontSize }
+  #- { key: Minus,    mods: Control,       action: DecreaseFontSize }
+
+  # (Windows only)
+  #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
+
+  # (macOS only)
+  #- { key: Key0,   mods: Command,         action: ResetFontSize    }
+  #- { key: Equals, mods: Command,         action: IncreaseFontSize }
+  #- { key: Add,    mods: Command,         action: IncreaseFontSize }
+  #- { key: Minus,  mods: Command,         action: DecreaseFontSize }
+  #- { key: K,      mods: Command,         action: ClearHistory     }
+  #- { key: K,      mods: Command,         chars: "\x0c"            }
+  #- { key: V,      mods: Command,         action: Paste            }
+  #- { key: C,      mods: Command,         action: Copy             }
+  #- { key: H,      mods: Command,         action: Hide             }
+  #- { key: M,      mods: Command,         action: Minimize         }
+  #- { key: Q,      mods: Command,         action: Quit             }
+  #- { key: W,      mods: Command,         action: Quit             }
+  #- { key: F,      mods: Command|Control, action: ToggleFullscreen }
+
+  #- { key: Paste,                    action: Paste                            }
+  #- { key: Copy,                     action: Copy                             }
+  #- { key: L,         mods: Control, action: ClearLogNotice                   }
+  #- { key: L,         mods: Control, chars: "\x0c"                            }
+  #- { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  #- { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  #- { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  #- { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
