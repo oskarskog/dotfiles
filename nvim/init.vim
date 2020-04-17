@@ -7,6 +7,11 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'itchyny/lightline.vim'
+Plug 'ayu-theme/ayu-vim'
 
 Plug 'autozimu/LanguageClient-neovim', {
 	\ 'branch': 'next',
@@ -17,8 +22,6 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
 Plug 'jpalardy/vim-slime', { 'for': 'haskell' }
-
-Plug 'ayu-theme/ayu-vim'
 
 call plug#end()
 
