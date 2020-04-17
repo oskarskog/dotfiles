@@ -46,10 +46,18 @@ set mouse=a
 
 " Language servers
 let g:LanguageClient_serverCommands = {
-	\ 'rust': [ '~/.cargo/bin/rustup', 'run', 'nightly', 'rls' ],
-	\ 'cpp': [ 'clangd' ],
-	\ 'c': [ 'clangd' ],
-	\ }
+      \ 'cpp': [ 'clangd' ],
+      \ 'c': [ 'clangd' ],
+      \ 'rust': [ '/usr/bin/rustup', 'run', 'nightly', 'rls' ],
+      \ 'javascript': ['javascript-typescript-stdio'],
+      \ 'typescript': ['javascript-typescript-stdio'],
+      \ }
+
+let g:LanguageClient_rootMarkers = {
+      \ 'javascript': ['jsconfig.json'],
+      \ 'typescript': ['tsconfig.json'],
+      \ }
+
 
 set formatexpr=LanguageClient_textDocument_rangeFormatting()
 
