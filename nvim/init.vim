@@ -67,7 +67,6 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 
 " General bindings
 let mapleader=' '
-inoremap fd <esc>
 nnoremap <silent><leader>fed :e /home/oskar/.config/nvim/init.vim<cr>
 nnoremap <silent><leader>feR :source /home/oskar/.config/nvim/init.vim<cr>
 nnoremap <silent><leader><tab> :b#<cr>
