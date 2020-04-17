@@ -103,3 +103,9 @@ let g:slime_paste_file = tempname()
 let g:slime_default_config = {
             \"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"
             \}
+
+" insert date in current buffer
+if !exists(":Date")
+  command Date :put =strftime('%b %d, %Y')
+endif
+
