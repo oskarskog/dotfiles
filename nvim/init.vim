@@ -40,7 +40,6 @@ set noswapfile
 set hidden
 set nu
 set relativenumber
-set cino=(0
 set mouse=a
 
 " format json :%!python -m json.tool 
