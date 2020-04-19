@@ -1,0 +1,13 @@
+[user]
+    email = skogiful@gmail.com
+    name = Oskar Skog
+
+[mergetool "nvim"]
+    cmd = nvim -f -c \"Gdiffsplit!\" \"$MERGED\"
+
+[merge]
+    tool = nvim
+
+[mergetool]
+    prompt = false
+    keepBackup = false
