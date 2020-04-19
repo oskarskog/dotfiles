@@ -18,6 +18,9 @@ Plug 'autozimu/LanguageClient-neovim', {
 	\ 'do': 'bash install.sh',
 	\ }
 
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
