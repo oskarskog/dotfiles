@@ -44,6 +44,7 @@ set hidden
 set nu
 set relativenumber
 set mouse=a
+set diffopt+=vertical
 
 " format json :%!python -m json.tool 
 
