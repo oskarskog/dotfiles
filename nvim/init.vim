@@ -11,7 +11,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'itchyny/lightline.vim'
-Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
 
 Plug 'autozimu/LanguageClient-neovim', {
 	\ 'branch': 'next',
@@ -29,8 +29,8 @@ Plug 'jpalardy/vim-slime', { 'for': 'haskell' }
 call plug#end()
 
 set termguicolors
-let ayucolor="dark"
-colorscheme ayu
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
 
 filetype plugin indent on
 syntax on
