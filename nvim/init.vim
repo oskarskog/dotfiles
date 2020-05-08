@@ -91,6 +91,11 @@ nnoremap <silent><leader>e :BufExplorer<cr>
 nnoremap <silent><leader>o :only<cr>
 nnoremap <silent><leader>gs :Gstatus<cr>
 
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 nnoremap <silent><leader>ff :Files<cr>
 nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
