@@ -65,6 +65,18 @@ let g:LanguageClient_rootMarkers = {
 
 set formatexpr=LanguageClient_textDocument_rangeFormatting()
 
+" lightline show git branch
+let g:lightline = {
+            \ 'colorscheme': 'wombat',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'gitbranch': 'FugitiveHead'
+            \ },
+            \ }
+
 " Use deoplete completion engine
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
