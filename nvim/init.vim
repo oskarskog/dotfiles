@@ -100,10 +100,7 @@ nnoremap <silent><leader>ff :Files<cr>
 nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
 
-" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
 " Lang server bindings
