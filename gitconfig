@@ -11,3 +11,5 @@
 [mergetool]
     prompt = false
     keepBackup = false
+[core]
+	askpass = /usr/bin/ksshaskpass
