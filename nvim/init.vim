@@ -12,6 +12,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
+Plug 'jpalardy/vim-slime'
 
 Plug 'autozimu/LanguageClient-neovim', {
 	\ 'branch': 'next',
@@ -24,7 +25,6 @@ Plug 'honza/vim-snippets'
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
-Plug 'jpalardy/vim-slime', { 'for': 'haskell' }
 
 call plug#end()
 
@@ -55,6 +55,7 @@ let g:LanguageClient_serverCommands = {
       \ 'rust': [ '/usr/bin/rustup', 'run', 'nightly', 'rls' ],
       \ 'javascript': ['javascript-typescript-stdio'],
       \ 'typescript': ['javascript-typescript-stdio'],
+      \ 'clojure' : [ 'bash', '-c', 'clojure-lsp'],
       \ }
 
 let g:LanguageClient_rootMarkers = {
