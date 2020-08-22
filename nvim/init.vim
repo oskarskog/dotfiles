@@ -6,25 +6,13 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
 Plug 'jpalardy/vim-slime'
-
-Plug 'autozimu/LanguageClient-neovim', {
-	\ 'branch': 'next',
-	\ 'do': 'bash install.sh',
-	\ }
-
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
-Plug 'itchyny/vim-haskell-indent', { 'for': 'haskell' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
@@ -36,7 +24,7 @@ filetype plugin indent on
 syntax on
 
 set fileencoding=utf8
-set updatetime=100
+set updatetime=300
 set tabstop=4 shiftwidth=4 expandtab
 set wildmenu
 set noswapfile
@@ -45,26 +33,6 @@ set nu
 set relativenumber
 set mouse=a
 set diffopt+=vertical
-
-" format json :%!python -m json.tool 
-
-" Language servers
-let g:LanguageClient_serverCommands = {
-      \ 'cpp': [ 'clangd' ],
-      \ 'c': [ 'clangd' ],
-      \ 'rust': [ '/usr/bin/rustup', 'run', 'nightly', 'rls' ],
-      \ 'javascript': ['javascript-typescript-stdio'],
-      \ 'typescript': ['javascript-typescript-stdio'],
-      \ 'clojure' : [ 'bash', '-c', 'clojure-lsp'],
-      \ }
-
-let g:LanguageClient_rootMarkers = {
-      \ 'javascript': ['jsconfig.json'],
-      \ 'typescript': ['tsconfig.json'],
-      \ }
-
-
-set formatexpr=LanguageClient_textDocument_rangeFormatting()
 
 " lightline show git branch
 let g:lightline = {
@@ -77,10 +45,6 @@ let g:lightline = {
             \   'gitbranch': 'FugitiveHead'
             \ },
             \ }
-
-" Use deoplete completion engine
-let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose | endif
 
 " General bindings
 let mapleader=' '
@@ -104,23 +68,11 @@ nnoremap <silent><leader>fs :BLines<cr>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" Lang server bindings
-function LC_maps()
-	if has_key(g:LanguageClient_serverCommands, &filetype)
-		nnoremap <buffer> <silent><leader>m :call LanguageClient_contextMenu()<cr>
-		nnoremap <buffer> <silent><leader>d :call LanguageClient#textDocument_definition()<cr>
-		nnoremap <buffer> <silent><leader>r :call LanguageClient#textDocument_rename()<cr>
-		nnoremap <buffer> <silent>K :call LanguageClient#textDocument_hover()<cr>
-	endif
-endfunction
-
-autocmd FileType * call LC_maps()
-
 " slime setup
 let g:slime_target = "tmux"
 let g:slime_paste_file = tempname()
 let g:slime_default_config = {
-            \"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"
+            \"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"
             \}
 
 " insert date in current buffer
@@ -128,3 +80,4 @@ if !exists(":Date")
   command Date :put =strftime('%b %d, %Y')
 endif
 
+source ~/.config/nvim/coc-init.vim
