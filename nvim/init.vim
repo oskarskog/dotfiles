@@ -80,4 +80,9 @@ if !exists(":Date")
   command Date :put =strftime('%b %d, %Y')
 endif
 
+" FZF
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
+
+" Coc
 source ~/.config/nvim/coc-init.vim
