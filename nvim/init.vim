@@ -65,6 +65,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <silent><leader>ff :Files<cr>
 nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
+nnoremap <silent><leader>fb :GCheckout<cr>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
@@ -84,6 +85,10 @@ endif
 " FZF
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
+
+let g:fzf_checkout_create_key = 'ctrl-c'
+let g:fzf_checkout_track_key = 'ctrl-t'
+let g:fzf_checkout_delete_key = 'ctrl-d'
 
 " Coc
 source ~/.config/nvim/coc-init.vim
