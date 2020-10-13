@@ -9,6 +9,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'morhetz/gruvbox'
+Plug 'mustache/vim-mustache-handlebars'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sheerun/vim-polyglot'
 Plug 'stsewd/fzf-checkout.vim'
@@ -92,3 +93,7 @@ let g:fzf_checkout_delete_key = 'ctrl-d'
 
 " Coc
 source ~/.config/nvim/coc-init.vim
+augroup hbs_ft
+    au!
+    autocmd BufNewFile,BufRead *.hbs set ft=handlebars
+augroup end
