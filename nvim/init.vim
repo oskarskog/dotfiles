@@ -67,6 +67,9 @@ nnoremap <silent><leader>ff :Files<cr>
 nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
 nnoremap <silent><leader>fb :GCheckout<cr>
+nnoremap <silent><leader>fg :GFiles<cr>
+
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
