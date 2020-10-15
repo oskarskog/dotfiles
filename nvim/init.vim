@@ -101,3 +101,15 @@ augroup hbs_ft
     au!
     autocmd BufNewFile,BufRead *.hbs set ft=handlebars
 augroup end
+
+let g:coc_global_extensions = [
+            \ 'coc-actions',
+            \ 'coc-highlight',
+            \ 'coc-css',
+            \ 'coc-ember',
+            \ 'coc-highlight',
+            \ 'coc-html',
+            \ 'coc-json',
+            \ 'coc-tsserver',
+            \ 'coc-vimlsp',
+            \ ]
