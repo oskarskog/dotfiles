@@ -67,7 +67,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <silent><leader>ff :Files<cr>
 nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
-nnoremap <silent><leader>fb :GCheckout<cr>
+nnoremap <silent><leader>fb :GBranches<cr>
 nnoremap <silent><leader>fg :GFiles<cr>
 
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -91,9 +91,40 @@ endif
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 
-let g:fzf_checkout_create_key = 'ctrl-c'
-let g:fzf_checkout_track_key = 'ctrl-t'
-let g:fzf_checkout_delete_key = 'ctrl-d'
+let g:fzf_branch_actions = {
+                        \ 'checkout': {
+                        \   'prompt': 'Checkout> ',
+                        \   'execute': 'echo system("{git} checkout {branch}")',
+                        \   'multiple': v:false,
+                        \   'keymap': 'enter',
+                        \   'required': ['branch'],
+                        \   'confirm': v:false,
+                        \ },
+                        \ 'track': {
+                        \   'prompt': 'Track> ',
+                        \   'execute': 'echo system("{git} checkout --track {branch}")',
+                        \   'multiple': v:false,
+                        \   'keymap': 'ctrl-t',
+                        \   'required': ['branch'],
+                        \   'confirm': v:false,
+                        \ },
+                        \ 'create': {
+                        \   'prompt': 'Create> ',
+                        \   'execute': 'echo system("{git} checkout -b {input}")',
+                        \   'multiple': v:false,
+                        \   'keymap': 'ctrl-b',
+                        \   'required': ['input'],
+                        \   'confirm': v:false,
+                        \ },
+                        \ 'delete': {
+                        \   'prompt': 'Delete> ',
+                        \   'execute': 'echo system("{git} branch -D {branch}")',
+                        \   'multiple': v:true,
+                        \   'keymap': 'ctrl-d',
+                        \   'required': ['branch'],
+                        \   'confirm': v:true,
+                        \ },
+                        \}
 
 " Coc
 source ~/.config/nvim/coc-init.vim
