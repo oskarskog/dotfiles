@@ -49,6 +49,13 @@ let g:lightline = {
             \ },
             \ }
 
+" Terminal
+tnoremap <Esc> <C-\><C-n>
+augroup term_mode
+  au!
+  au TermOpen * setlocal nonumber norelativenumber
+augroup end
+
 " General bindings
 let mapleader=' '
 nnoremap <silent><leader>fed :e /home/oskar/.config/nvim/init.vim<cr>
