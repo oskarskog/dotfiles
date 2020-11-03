@@ -59,8 +59,8 @@ augroup end
 
 " General bindings
 let mapleader=' '
-nnoremap <silent><leader>fed :e /home/oskar/.config/nvim/init.vim<cr>
-nnoremap <silent><leader>feR :source /home/oskar/.config/nvim/init.vim<cr>
+nnoremap <silent><leader>fed :e $HOME/.config/nvim/init.vim<cr>
+nnoremap <silent><leader>feR :source $HOME/.config/nvim/init.vim<cr>
 nnoremap <silent><leader><tab> :b#<cr>
 nnoremap <silent><leader>bd :bd<cr>
 nnoremap <silent><leader>e :BufExplorer<cr>
