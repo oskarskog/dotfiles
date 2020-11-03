@@ -42,15 +42,15 @@ set shell=zsh
 
 " lightline show git branch
 let g:lightline = {
-            \ 'colorscheme': 'wombat',
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-            \ },
-            \ 'component_function': {
-            \   'gitbranch': 'FugitiveHead'
-            \ },
-            \ }
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
 
 " Terminal
 tnoremap <Esc> <C-\><C-n>
@@ -89,8 +89,8 @@ nmap ga <Plug>(EasyAlign)
 let g:slime_target = "tmux"
 let g:slime_paste_file = tempname()
 let g:slime_default_config = {
-            \"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"
-            \}
+      \"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"
+      \}
 
 " insert date in current buffer
 if !exists(":Date")
@@ -102,56 +102,56 @@ let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 
 let g:fzf_branch_actions = {
-                        \ 'checkout': {
-                        \   'prompt': 'Checkout> ',
-                        \   'execute': 'echo system("{git} checkout {branch}")',
-                        \   'multiple': v:false,
-                        \   'keymap': 'enter',
-                        \   'required': ['branch'],
-                        \   'confirm': v:false,
-                        \ },
-                        \ 'track': {
-                        \   'prompt': 'Track> ',
-                        \   'execute': 'echo system("{git} checkout --track {branch}")',
-                        \   'multiple': v:false,
-                        \   'keymap': 'ctrl-t',
-                        \   'required': ['branch'],
-                        \   'confirm': v:false,
-                        \ },
-                        \ 'create': {
-                        \   'prompt': 'Create> ',
-                        \   'execute': 'echo system("{git} checkout -b {input}")',
-                        \   'multiple': v:false,
-                        \   'keymap': 'ctrl-b',
-                        \   'required': ['input'],
-                        \   'confirm': v:false,
-                        \ },
-                        \ 'delete': {
-                        \   'prompt': 'Delete> ',
-                        \   'execute': 'echo system("{git} branch -D {branch}")',
-                        \   'multiple': v:true,
-                        \   'keymap': 'ctrl-d',
-                        \   'required': ['branch'],
-                        \   'confirm': v:true,
-                        \ },
-                        \}
+      \ 'checkout': {
+      \   'prompt': 'Checkout> ',
+      \   'execute': 'echo system("{git} checkout {branch}")',
+      \   'multiple': v:false,
+      \   'keymap': 'enter',
+      \   'required': ['branch'],
+      \   'confirm': v:false,
+      \ },
+      \ 'track': {
+      \   'prompt': 'Track> ',
+      \   'execute': 'echo system("{git} checkout --track {branch}")',
+      \   'multiple': v:false,
+      \   'keymap': 'ctrl-t',
+      \   'required': ['branch'],
+      \   'confirm': v:false,
+      \ },
+      \ 'create': {
+      \   'prompt': 'Create> ',
+      \   'execute': 'echo system("{git} checkout -b {input}")',
+      \   'multiple': v:false,
+      \   'keymap': 'ctrl-b',
+      \   'required': ['input'],
+      \   'confirm': v:false,
+      \ },
+      \ 'delete': {
+      \   'prompt': 'Delete> ',
+      \   'execute': 'echo system("{git} branch -D {branch}")',
+      \   'multiple': v:true,
+      \   'keymap': 'ctrl-d',
+      \   'required': ['branch'],
+      \   'confirm': v:true,
+      \ },
+      \}
 
 " Coc
 source ~/.config/nvim/coc-init.vim
 augroup hbs_ft
-    au!
-    autocmd BufNewFile,BufRead *.hbs set ft=handlebars
+  au!
+  autocmd BufNewFile,BufRead *.hbs set ft=handlebars
 augroup end
 
 let g:coc_node_path = '/Users/oskar/.nvm/versions/node/v14.15.0/bin/node'
 let g:coc_global_extensions = [
-            \ 'coc-actions',
-            \ 'coc-highlight',
-            \ 'coc-css',
-            \ 'coc-ember',
-            \ 'coc-highlight',
-            \ 'coc-html',
-            \ 'coc-json',
-            \ 'coc-tsserver',
-            \ 'coc-vimlsp',
-            \ ]
+      \ 'coc-actions',
+      \ 'coc-highlight',
+      \ 'coc-css',
+      \ 'coc-ember',
+      \ 'coc-highlight',
+      \ 'coc-html',
+      \ 'coc-json',
+      \ 'coc-tsserver',
+      \ 'coc-vimlsp',
+      \ ]
