@@ -1,6 +1,7 @@
 ﻿call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'jlanzarotta/bufexplorer'
@@ -28,7 +29,6 @@ syntax on
 
 set fileencoding=utf8
 set updatetime=300
-set tabstop=4 shiftwidth=4 expandtab
 set wildmenu
 set noswapfile
 set hidden
