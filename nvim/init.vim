@@ -36,6 +36,7 @@ set nu
 set relativenumber
 set mouse=a
 set diffopt+=vertical
+set cursorline
 
 " lightline show git branch
 let g:lightline = {
