@@ -38,6 +38,7 @@ set relativenumber
 set mouse=a
 set diffopt+=vertical
 set cursorline
+set shell=zsh
 
 " lightline show git branch
 let g:lightline = {
@@ -142,6 +143,7 @@ augroup hbs_ft
     autocmd BufNewFile,BufRead *.hbs set ft=handlebars
 augroup end
 
+let g:coc_node_path = '/Users/oskar/.nvm/versions/node/v14.15.0/bin/node'
 let g:coc_global_extensions = [
             \ 'coc-actions',
             \ 'coc-highlight',
