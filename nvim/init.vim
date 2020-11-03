@@ -40,6 +40,8 @@ set diffopt+=vertical
 set cursorline
 set shell=zsh
 
+packadd cfilter
+
 " lightline show git branch
 let g:lightline = {
       \ 'colorscheme': 'wombat',
@@ -99,7 +101,7 @@ endif
 
 " FZF
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
-let $FZF_DEFAULT_OPTS='--reverse'
+let $FZF_DEFAULT_OPTS='--reverse --bind ctrl-a:select-all'
 
 let g:fzf_branch_actions = {
       \ 'checkout': {
