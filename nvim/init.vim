@@ -147,10 +147,9 @@ augroup hbs_ft
   autocmd BufNewFile,BufRead *.hbs set ft=handlebars
 augroup end
 
-let g:coc_node_path = '/Users/oskar/.nvm/versions/node/v14.15.0/bin/node'
+let g:coc_node_path = $HOME . '/.nvm/versions/node/v14.15.0/bin/node'
 let g:coc_global_extensions = [
       \ 'coc-actions',
-      \ 'coc-highlight',
       \ 'coc-css',
       \ 'coc-ember',
       \ 'coc-highlight',
