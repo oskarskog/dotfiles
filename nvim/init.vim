@@ -15,6 +15,7 @@ Plug 'mattn/emmet-vim'
 Plug 'morhetz/gruvbox'
 Plug 'mustache/vim-mustache-handlebars', { 'for': ['mustache', 'handlebars'] }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdtree' 
 Plug 'sheerun/vim-polyglot'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-commentary'
@@ -84,6 +85,9 @@ nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
 nnoremap <silent><leader>fb :GBranches<cr>
 nnoremap <silent><leader>fg :GFiles<cr>
+nnoremap <silent><leader>fc :Commands<cr>
+nnoremap <silent><leader>tt :NERDTreeToggle<cr>
+nnoremap <silent><leader>tf :NERDTreeFind<cr>
 
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
@@ -161,3 +165,6 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-vimlsp',
       \ ]
+
+" NERDTree
+let g:NERDTreeWinSize=50
