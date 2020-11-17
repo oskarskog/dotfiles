@@ -42,7 +42,6 @@ set relativenumber
 set mouse=a
 set diffopt+=vertical
 set cursorline
-set shell=zsh
 
 packadd cfilter
 
