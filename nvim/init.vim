@@ -19,12 +19,14 @@ Plug 'sheerun/vim-polyglot'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'eemed/sitruuna.vim'
 
 call plug#end()
 
 set termguicolors
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
+set background=dark
+colorscheme sitruuna
+let g:sitruuna_fzf = 1
 
 filetype plugin indent on
 syntax on
@@ -45,7 +47,7 @@ packadd cfilter
 
 " lightline show git branch
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'sitruuna',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
