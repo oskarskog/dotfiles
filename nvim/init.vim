@@ -152,6 +152,9 @@ augroup hbs_ft
   autocmd BufNewFile,BufRead *.hbs set ft=handlebars
 augroup end
 
+
+highlight CocHighlightText guibg='#5c6366' guifg='white'
+
 let g:coc_node_path = $HOME . '/.nvm/versions/node/v14.15.0/bin/node'
 let g:coc_global_extensions = [
       \ 'coc-actions',
