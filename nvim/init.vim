@@ -106,7 +106,7 @@ if !exists(":Date")
 endif
 
 " FZF
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let g:fzf_layout = { 'down': '40%' }
 let $FZF_DEFAULT_OPTS='--reverse --bind ctrl-a:select-all'
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
 

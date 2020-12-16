@@ -1,0 +1,5 @@
+nvim/.netrwhist
+nvim/coc-settings.json
+
+emacs/*
+!emacs/init.el
