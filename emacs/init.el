@@ -63,7 +63,7 @@
   :preface
   (defvar ian/indent-width 4)
   :config
-  (setq frame-title-format '("%f")
+  (setq frame-title-format '("Emacs")
         ring-bell-function 'ignore
         frame-resize-pixelwise t
         default-directory "~/")
@@ -190,8 +190,6 @@
   :straight t)
 
 ;; Themes
-(use-package color-theme-sanityinc-tomorrow
-  :straight t)
 
 (use-package modus-vivendi-theme
   :straight t
@@ -264,6 +262,20 @@
     "dv" 'describe-variable
     "dm" 'describe-mode))
 
+(use-package org
+  :straight t
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . org-indent-mode))
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((emacs-lisp . t)
+                               (python . t)
+                               (http . t)))
+  (evil-leader/set-key-for-mode 'org-mode
+    "me" 'org-babel-execute-src-block
+    "mt" 'org-todo)
+  (require 'org-tempo))
+
 (use-package magit
   :straight t
   :config
@@ -334,16 +346,15 @@
   :hook (company-mode . company-box-mode))
 
 ;; Prog modes
-(use-package js2-mode
-  :straight t
-  :mode ("\\.js\\'" . js2-mode)
-  :hook ((js2-mode . (lambda ()
-                       (add-hook 'before-save-hook 'lsp-format-buffer nil 'local)))))
+
+(use-package ruby-mode
+  :config
+  (setq ruby-insert-encoding-magic-comment nil))
 
 (use-package js-comint
   :straight t
   :config
-  (evil-leader/set-key-for-mode 'js2-mode
+  (evil-leader/set-key-for-mode 'web-mode
     "mr" 'js-comint-repl
     "mR" 'js-comint-reset-repl
     "ms" 'js-comint-send-region))
@@ -367,16 +378,36 @@
         (when (and linter (file-executable-p linter))
           (setq-local flycheck-ember-template-executable linter)))
       (flycheck-select-checker checker)))
-  :mode (("\\.hbs\\'" . web-mode)
+
+  :mode (("\\.js\\'" . web-mode)
+         ("\\.hbs\\'" . web-mode)
          ("\\.html\\'" . web-mode)
          ("\\.scss\\'" . web-mode)
          ("\\.css\\'" . web-mode))
-  :hook ((web-mode . my/use-local-ember-template-lint)
-         (web-mode . (lambda ()
+  :hook ((web-mode . (lambda ()
+                       (unless (string= (file-name-extension (buffer-file-name)) "hbs")
+                         (add-hook 'before-save-hook 'web-mode-buffer-indent nil 'local))
+                       (my/use-local-ember-template-lint)
                        (when (string= (file-name-extension (buffer-file-name)) "hbs")
                          (setq-local web-mode-comment-style 2)
                          (setq-local comment-start "{{!--")
-                         (setq-local comment-end   "--}}"))))))
+                         (setq-local comment-end   "--}}")))))
+  :config
+  (setq web-mode-block-padding 0
+        web-mode-script-padding 0
+        web-mode-style-padding 0
+        web-mode-part-padding 0)
+  (setq web-mode-indentation-params
+        (seq-filter
+         (lambda (elt)
+           (let ((key (car elt)))
+             (not (member key '("lineup-calls"
+                                "lineup-args"
+                                "lineup-ternary")))))
+         web-mode-indentation-params)))
+
+(use-package coffee-mode
+  :straight t)
 
 (use-package emmet-mode
   :straight t
@@ -389,19 +420,6 @@
 (use-package ob-http
   :straight t)
 
-(use-package org
-  :straight t
-  :hook ((org-mode . visual-line-mode)
-         (org-mode . org-indent-mode))
-  :config
-  (require 'org-tempo)
-  (org-babel-do-load-languages 'org-babel-load-languages '((emacs-lisp . t)
-                                                           (python . t)
-                                                           (http . t)))
-  (evil-leader/set-key-for-mode 'org-mode
-    "me" 'org-babel-execute-src-block
-    "mt" 'org-todo))
-
 (use-package org-bullets
   :straight t
   :hook (org-mode . org-bullets-mode))
@@ -410,10 +428,17 @@
   :straight t
   :hook (markdown-mode . visual-line-mode))
 
+(use-package yaml-mode
+  :straight t)
+
 ;; LSP
 (use-package lsp-mode
   :straight t
-  :hook ((js2-mode . lsp)
+  :preface
+  (defun my/web-mode-lsp-trigger ()
+    (when (member (file-name-extension (buffer-file-name)) '("js" "jsx" "ts" "tsx"))
+      (lsp)))
+  :hook ((web-mode . my/web-mode-lsp-trigger)
          (typescript-mode . lsp)
          (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
@@ -473,8 +498,10 @@
 (use-package flycheck
   :straight t
   :diminish flycheck-mode
-  :config (global-flycheck-mode +1))
-
+  :init
+  (setq-default flycheck-disabled-checkers '(ruby-rubocop))
+  :config
+  (global-flycheck-mode +1))
 
 (use-package which-key
   :straight t
