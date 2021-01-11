@@ -273,7 +273,10 @@
                                (http . t)))
   (evil-leader/set-key-for-mode 'org-mode
     "me" 'org-babel-execute-src-block
-    "mt" 'org-todo)
+    "mt" 'org-todo
+    "md" 'org-time-stamp
+    "mn" 'org-add-note
+    "mb" 'browse-url)
   (require 'org-tempo))
 
 (use-package magit
@@ -302,17 +305,25 @@
   :straight t
   :bind (:map helm-map ("C-d" . 'helm-buffer-run-kill-buffers))
   :config
+  (setq helm-split-window-default-side 'same)
   (evil-leader/set-key
     "e" 'helm-mini
     "fc" 'helm-M-x
     "fa" 'helm-apropos
     "ff" 'helm-find-files
-    "fs" 'helm-occur))
+    "fg" 'helm-google-suggest))
 
-(use-package helm-rg
+(use-package helm-ag
   :straight t
+  :bind (:map helm-map ("C-c C-c" . 'helm-ag-edit))
   :config
-  (setq helm-rg-ripgrep-executable "/usr/local/bin/rg"))
+  (setq helm-ag-insert-at-point 'symbol
+        helm-ag-base-command (concat "ag"
+                                     " --nocolor"
+                                     " --nogroup"
+                                     " --smart-case"))
+  (evil-leader/set-key
+    "fs" 'helm-do-ag-this-file))
 
 (use-package helm-projectile
   :straight t
@@ -322,7 +333,7 @@
     "pf" 'helm-projectile
     "pF" 'helm-projectile-find-file-in-known-projects
     "ps" 'helm-projectile-switch-project
-    "pr" 'helm-projectile-rg))
+    "pr" 'helm-projectile-ag))
 
 (use-package company
   :straight t
@@ -333,6 +344,7 @@
   (setq company-minimum-prefix-length 1
         company-idle-delay 0.1
         company-selection-wrap-around t
+        company-dabbrev-downcase nil
         company-tooltip-align-annotations t
         company-frontends '(company-pseudo-tooltip-frontend ; show tooltip even for single candidate
                             company-echo-metadata-frontend))
@@ -385,7 +397,8 @@
          ("\\.scss\\'" . web-mode)
          ("\\.css\\'" . web-mode))
   :hook ((web-mode . (lambda ()
-                       (unless (string= (file-name-extension (buffer-file-name)) "hbs")
+                       (if (string= (file-name-extension (buffer-file-name)) "hbs")
+                           (web-mode-set-engine "handlebars")
                          (add-hook 'before-save-hook 'web-mode-buffer-indent nil 'local))
                        (my/use-local-ember-template-lint)
                        (when (string= (file-name-extension (buffer-file-name)) "hbs")
@@ -407,6 +420,12 @@
          web-mode-indentation-params)))
 
 (use-package coffee-mode
+  :straight t)
+
+(use-package nxml-mode
+  :mode (("\\.xaml\\'" . nxml-mode)))
+
+(use-package csharp-mode
   :straight t)
 
 (use-package emmet-mode
