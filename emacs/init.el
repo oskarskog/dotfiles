@@ -15,7 +15,8 @@
           (lambda ()
             (setq gc-cons-threshold ian/gc-cons-threshold
                   gc-cons-percentage 0.1
-                  file-name-handler-alist file-name-handler-alist-original)))
+                  file-name-handler-alist file-name-handler-alist-original
+                  read-process-output-max (* 1024 1024))))
 
 (add-hook 'minibuffer-setup-hook (lambda ()
                                    (setq gc-cons-threshold (* ian/gc-cons-threshold 2))))
@@ -176,6 +177,10 @@
   :config
   (setq eldoc-idle-delay 0.4))
 
+(use-package recentf
+  :config
+  (setq recentf-max-menu-items 20))
+
 ;; Thirdparty
 
 (use-package restart-emacs
@@ -190,11 +195,13 @@
   :straight t)
 
 ;; Themes
-
-(use-package modus-vivendi-theme
+(use-package spacemacs-theme
+  :defer t
   :straight t
-  :config
-  (load-theme 'modus-vivendi t))
+  :init
+  (setq spacemacs-theme-comment-italic t
+        spacemacs-theme-comment-bg nil)
+  (load-theme 'spacemacs-dark t))
 
 (use-package highlight-numbers
   :straight t
@@ -267,6 +274,8 @@
   :hook ((org-mode . visual-line-mode)
          (org-mode . org-indent-mode))
   :config
+  (setq org-src-tab-acts-natively t
+        org-src-preserve-indentation t)
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t)
                                (python . t)
@@ -287,7 +296,8 @@
   (evil-define-key 'normal 'magit-status-mode-map (kbd "C-k") 'evil-window-up)
   (evil-define-key 'normal 'magit-status-mode-map (kbd "C-l") 'evil-window-right)
   (evil-leader/set-key
-    "g" 'magit-status))
+    "gg" 'magit-status
+    "gb" 'magit-log-buffer-file))
 
 (use-package git-gutter-fringe
   :straight t
@@ -299,7 +309,9 @@
   :straight t
   :config
   (setq projectile-project-search-path (list "~/d/src"))
-  (projectile-discover-projects-in-search-path))
+  (projectile-discover-projects-in-search-path)
+  (evil-leader/set-key
+    "pk" 'projectile-kill-buffers))
 
 (use-package helm
   :straight t
@@ -377,34 +389,18 @@
 (use-package web-mode
   :straight t
   :preface
-  (defun my/use-local-ember-template-lint ()
-    (-when-let (checker (cond
-                         ((string= (file-name-extension (buffer-file-name)) "hbs")
-                          'ember-template)))
-      (let* ((root (locate-dominating-file
-                    (or (buffer-file-name) default-directory)
-                    "node_modules"))
-             (linter (and root
-                          (expand-file-name "node_modules/ember-template-lint/bin/ember-template-lint.js"
-                                            root))))
-        (when (and linter (file-executable-p linter))
-          (setq-local flycheck-ember-template-executable linter)))
-      (flycheck-select-checker checker)))
-
   :mode (("\\.js\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)
          ("\\.html\\'" . web-mode)
          ("\\.scss\\'" . web-mode)
          ("\\.css\\'" . web-mode))
   :hook ((web-mode . (lambda ()
-                       (if (string= (file-name-extension (buffer-file-name)) "hbs")
-                           (web-mode-set-engine "handlebars")
-                         (add-hook 'before-save-hook 'web-mode-buffer-indent nil 'local))
-                       (my/use-local-ember-template-lint)
-                       (when (string= (file-name-extension (buffer-file-name)) "hbs")
-                         (setq-local web-mode-comment-style 2)
-                         (setq-local comment-start "{{!--")
-                         (setq-local comment-end   "--}}")))))
+                       (if (string= (file-name-extension (buffer-name)) "hbs")
+                         (web-mode-set-engine "handlebars")
+                         (setq-local web-mode-comment-style 2
+                                     comment-start "{{!--"
+                                     comment-end   "--}}")
+                         (add-hook 'before-save-hook 'lsp-format-buffer nil 'local)))))
   :config
   (setq web-mode-block-padding 0
         web-mode-script-padding 0
@@ -419,6 +415,10 @@
                                 "lineup-ternary")))))
          web-mode-indentation-params)))
 
+(use-package add-node-modules-path
+  :straight t
+  :hook (web-mode . add-node-modules-path))
+
 (use-package coffee-mode
   :straight t)
 
@@ -427,6 +427,14 @@
 
 (use-package csharp-mode
   :straight t)
+
+(use-package python
+  :config
+  (evil-leader/set-key-for-mode 'python-mode
+    "mr" (lambda ()
+           (interactive)
+           (run-python "python3"))
+    "me" 'python-shell-send-region))
 
 (use-package emmet-mode
   :straight t
@@ -455,7 +463,7 @@
   :straight t
   :preface
   (defun my/web-mode-lsp-trigger ()
-    (when (member (file-name-extension (buffer-file-name)) '("js" "jsx" "ts" "tsx"))
+    (when (member (file-name-extension (buffer-name)) '("js" "jsx" "ts" "tsx"))
       (lsp)))
   :hook ((web-mode . my/web-mode-lsp-trigger)
          (typescript-mode . lsp)
@@ -463,7 +471,8 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
   :config
-  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-headerline-breadcrumb-enable nil
+        lsp-completion-provider :capf)
   (with-eval-after-load 'evil-maps
     (define-key evil-normal-state-map (kbd "gd") 'lsp-find-definition)
     (define-key evil-normal-state-map (kbd "gr") 'lsp-find-references)
@@ -473,7 +482,8 @@
 (use-package lsp-ui
   :straight t
   :config
-  (setq lsp-ui-doc-position 'at-point))
+  (setq-default lsp-ui-doc-position 'at-point
+                lsp-ui-peek-enable nil))
 
 (use-package lsp-treemacs
   :straight t)
