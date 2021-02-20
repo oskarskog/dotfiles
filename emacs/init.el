@@ -269,17 +269,24 @@
     "dv" 'describe-variable
     "dm" 'describe-mode))
 
+(use-package evil-easymotion
+  :straight t
+  :config (evilem-default-keybindings ","))
+
 (use-package org
   :straight t
   :hook ((org-mode . visual-line-mode)
          (org-mode . org-indent-mode))
   :config
+  (setq-local org-return-follows-link t)
   (setq org-src-tab-acts-natively t
-        org-src-preserve-indentation t)
+        org-src-preserve-indentation t
+        org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t)
                                (python . t)
-                               (http . t)))
+                               (restclient . t)
+                               (shell . t)))
   (evil-leader/set-key-for-mode 'org-mode
     "me" 'org-babel-execute-src-block
     "mt" 'org-todo
@@ -297,7 +304,8 @@
   (evil-define-key 'normal 'magit-status-mode-map (kbd "C-l") 'evil-window-right)
   (evil-leader/set-key
     "gg" 'magit-status
-    "gb" 'magit-log-buffer-file))
+    "gf" 'magit-log-buffer-file
+    "gb" 'magit-blame))
 
 (use-package git-gutter-fringe
   :straight t
@@ -375,6 +383,16 @@
   :config
   (setq ruby-insert-encoding-magic-comment nil))
 
+(use-package inf-ruby
+  :straight t
+  :hook (ruby-mode . inf-ruby-minor-mode)
+  :config
+  (setq inf-ruby-default-implementation "jruby")
+  (evil-leader/set-key-for-mode 'ruby-mode
+    "mr" 'inf-ruby
+    "me" 'ruby-send-region
+    "md" 'ruby-send-definition))
+
 (use-package js-comint
   :straight t
   :config
@@ -444,7 +462,7 @@
   :config
   (evil-define-key 'insert web-mode-map (kbd "C-,") 'emmet-expand-line))
 
-(use-package ob-http
+(use-package ob-restclient
   :straight t)
 
 (use-package org-bullets
@@ -471,8 +489,7 @@
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
   :config
-  (setq lsp-headerline-breadcrumb-enable nil
-        lsp-completion-provider :capf)
+  (setq lsp-headerline-breadcrumb-enable nil)
   (with-eval-after-load 'evil-maps
     (define-key evil-normal-state-map (kbd "gd") 'lsp-find-definition)
     (define-key evil-normal-state-map (kbd "gr") 'lsp-find-references)
