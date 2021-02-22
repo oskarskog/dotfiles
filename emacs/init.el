@@ -73,6 +73,7 @@
   (menu-bar-mode -1)
   (auto-save-mode nil)
   (blink-cursor-mode -1)
+  (fset 'yes-or-no-p 'y-or-n-p)
 
   ;; better scrolling experience
   (setq scroll-margin 0
@@ -189,19 +190,17 @@
 
 (use-package hungry-delete
   :straight t
+  :diminish hungry-delete-mode
   :hook (prog-mode . hungry-delete-mode))
 
 (use-package all-the-icons
   :straight t)
 
 ;; Themes
-(use-package spacemacs-theme
-  :defer t
+(use-package kaolin-themes
   :straight t
-  :init
-  (setq spacemacs-theme-comment-italic t
-        spacemacs-theme-comment-bg nil)
-  (load-theme 'spacemacs-dark t))
+  :config
+  (load-theme 'kaolin-dark t))
 
 (use-package highlight-numbers
   :straight t
@@ -325,7 +324,8 @@
   :straight t
   :bind (:map helm-map ("C-d" . 'helm-buffer-run-kill-buffers))
   :config
-  (setq helm-split-window-default-side 'same)
+  (setq helm-split-window-default-side 'same
+        helm-buffer-max-length 50)
   (evil-leader/set-key
     "e" 'helm-mini
     "fc" 'helm-M-x
@@ -377,6 +377,14 @@
   :diminish company-box-mode
   :hook (company-mode . company-box-mode))
 
+(use-package yasnippet
+  :straight t
+  :diminish yas-minor-mode
+  :hook (prog-mode . yas-minor-mode))
+
+(use-package yasnippet-snippets
+  :straight t)
+
 ;; Prog modes
 
 (use-package ruby-mode
@@ -407,11 +415,30 @@
 (use-package web-mode
   :straight t
   :preface
+  (defvar ember-file-types '("route.js"
+                             "route.coffee"
+                             "controller.js"
+                             "controller.coffee"
+                             "template.hbs"
+                             "component.js"
+                             "component.coffee"))
+
+  (defun ember-select-file ()
+    (interactive)
+    (-if-let* ((current-file-name (buffer-file-name))
+               (candidates (-filter
+                            (lambda (file)
+                              (file-exists-p (concat (file-name-directory current-file-name) file)))
+                            ember-file-types))
+               (selected-candidate (helm
+                                    :sources (helm-build-sync-source "ember-file-types" :candidates candidates)
+                                    :fuzzy t
+                                    :buffer "*ember-select-file*")))
+        (find-file selected-candidate)
+      (message "No candidates available!")))
   :mode (("\\.js\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)
-         ("\\.html\\'" . web-mode)
-         ("\\.scss\\'" . web-mode)
-         ("\\.css\\'" . web-mode))
+         ("\\.html\\'" . web-mode))
   :hook ((web-mode . (lambda ()
                        (if (string= (file-name-extension (buffer-name)) "hbs")
                          (web-mode-set-engine "handlebars")
@@ -420,6 +447,8 @@
                                      comment-end   "--}}")
                          (add-hook 'before-save-hook 'lsp-format-buffer nil 'local)))))
   :config
+  (evil-leader/set-key-for-mode 'web-mode
+    "mm" 'ember-select-file)
   (setq web-mode-block-padding 0
         web-mode-script-padding 0
         web-mode-style-padding 0
@@ -476,6 +505,20 @@
 (use-package yaml-mode
   :straight t)
 
+(use-package fsharp-mode
+  :straight t
+  :config
+  (lsp-lens--enable)
+  (setq fsharp-indent-offset 2))
+
+(use-package rustic
+  :straight t
+  :init
+  (setq rustic-lsp-server 'rust-analyzer))
+
+(use-package elm-mode
+  :straight t)
+
 ;; LSP
 (use-package lsp-mode
   :straight t
@@ -486,13 +529,18 @@
   :hook ((web-mode . my/web-mode-lsp-trigger)
          (typescript-mode . lsp)
          (python-mode . lsp)
+         (css-mode . lsp)
+         (scss-mode . lsp)
+         (fsharp-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
   :config
-  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-headerline-breadcrumb-enable nil
+        lsp-ui-sideline-enable nil)
   (with-eval-after-load 'evil-maps
-    (define-key evil-normal-state-map (kbd "gd") 'lsp-find-definition)
-    (define-key evil-normal-state-map (kbd "gr") 'lsp-find-references)
+    (define-key evil-normal-state-map (kbd "gd") 'lsp-ui-peek-find-definitions)
+    (define-key evil-normal-state-map (kbd "gr") 'lsp-ui-peek-find-references)
+    (define-key evil-normal-state-map (kbd "gm") 'lsp-ui-imenu)
     (evil-leader/set-key
       "rn" 'lsp-rename)))
 
@@ -501,9 +549,6 @@
   :config
   (setq-default lsp-ui-doc-position 'at-point
                 lsp-ui-peek-enable nil))
-
-(use-package lsp-treemacs
-  :straight t)
 
 (use-package helm-lsp
   :straight t
