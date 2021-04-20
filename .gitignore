@@ -3,3 +3,4 @@ nvim/coc-settings.json
 
 emacs/*
 !emacs/init.el
+!emacs/scripts

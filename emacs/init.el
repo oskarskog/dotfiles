@@ -2,6 +2,7 @@
 ;;; Commentary:
 ;;; Simple config
 ;;; Code:
+(add-to-list 'load-path (concat user-emacs-directory "scripts"))
 (defvar file-name-handler-alist-original file-name-handler-alist)
 
 (setq gc-cons-threshold most-positive-fixnum
@@ -200,7 +201,7 @@
 (use-package kaolin-themes
   :straight t
   :config
-  (load-theme 'kaolin-dark t))
+  (load-theme 'kaolin-light t)) ;;'kaolin-dark t))
 
 (use-package highlight-numbers
   :straight t
@@ -385,18 +386,23 @@
 (use-package yasnippet-snippets
   :straight t)
 
+(use-package highlight-indent-guides
+  :straight t
+  :config
+  (setq highlight-indent-guides-method 'character))
+
 ;; Prog modes
 
-(use-package ruby-mode
-  :config
-  (setq ruby-insert-encoding-magic-comment nil))
+(use-package enh-ruby-mode
+  :straight t
+  :mode (("\\.rb\\'" . enh-ruby-mode)))
 
 (use-package inf-ruby
   :straight t
-  :hook (ruby-mode . inf-ruby-minor-mode)
+  :hook (enh-ruby-mode . inf-ruby-minor-mode)
   :config
   (setq inf-ruby-default-implementation "jruby")
-  (evil-leader/set-key-for-mode 'ruby-mode
+  (evil-leader/set-key-for-mode 'enh-ruby-mode
     "mr" 'inf-ruby
     "me" 'ruby-send-region
     "md" 'ruby-send-definition))
@@ -412,30 +418,32 @@
 (use-package typescript-mode
   :straight t)
 
+(defvar ember-file-types '("route.js"
+                           "route.coffee"
+                           "controller.js"
+                           "controller.coffee"
+                           "template.hbs"
+                           "component.js"
+                           "component.coffee"))
+
+(defun ember-select-file ()
+  "Switch to another ember file."
+  (interactive)
+  (-if-let* ((current-file-name (buffer-file-name))
+             (candidates (-filter
+                          (lambda (file)
+                            (file-exists-p (concat (file-name-directory current-file-name) file)))
+                          ember-file-types))
+             (selected-candidate (helm
+                                  :sources (helm-build-sync-source "ember-file-types" :candidates candidates)
+                                  :fuzzy t
+                                  :buffer "*ember-select-file*")))
+      (find-file selected-candidate)
+    (message "No candidates available!")))
+
 (use-package web-mode
   :straight t
   :preface
-  (defvar ember-file-types '("route.js"
-                             "route.coffee"
-                             "controller.js"
-                             "controller.coffee"
-                             "template.hbs"
-                             "component.js"
-                             "component.coffee"))
-
-  (defun ember-select-file ()
-    (interactive)
-    (-if-let* ((current-file-name (buffer-file-name))
-               (candidates (-filter
-                            (lambda (file)
-                              (file-exists-p (concat (file-name-directory current-file-name) file)))
-                            ember-file-types))
-               (selected-candidate (helm
-                                    :sources (helm-build-sync-source "ember-file-types" :candidates candidates)
-                                    :fuzzy t
-                                    :buffer "*ember-select-file*")))
-        (find-file selected-candidate)
-      (message "No candidates available!")))
   :mode (("\\.js\\'" . web-mode)
          ("\\.hbs\\'" . web-mode)
          ("\\.html\\'" . web-mode))
@@ -467,7 +475,17 @@
   :hook (web-mode . add-node-modules-path))
 
 (use-package coffee-mode
-  :straight t)
+  :straight t
+  :config
+  (evil-leader/set-key-for-mode 'coffee-mode
+    "mm" 'ember-select-file))
+
+(use-package coffeescript-helpers
+  :config
+  (add-to-list 'hs-special-modes-alist
+               `(coffee-mode "\\s-*\\(?:class\\|.+[-=]>$\\)" nil "#"
+                             ,(lambda (arg)
+                                (coffee-nav-end-of-block)) nil)))
 
 (use-package nxml-mode
   :mode (("\\.xaml\\'" . nxml-mode)))
@@ -505,10 +523,13 @@
 (use-package yaml-mode
   :straight t)
 
+(use-package json-mode
+  :straight t)
+
 (use-package fsharp-mode
   :straight t
   :config
-  (lsp-lens--enable)
+  (setq-local lsp-lens-enable t)
   (setq fsharp-indent-offset 2))
 
 (use-package rustic
@@ -601,6 +622,14 @@
   (which-key-mode +1)
   (setq which-key-idle-delay 0.4
         which-key-idle-secondary-delay 0.4))
+
+(use-package hideshow
+  :hook (coffee-mode . hs-minor-mode)
+  :config
+  (evil-leader/set-key-for-mode 'hs-minor-mode
+    "hs" 'hs-show-block
+    "hh" 'hs-hide-block
+    "ha" 'hs-show-all))
 
 (use-package exec-path-from-shell
   :straight t
