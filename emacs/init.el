@@ -109,13 +109,13 @@
         create-lockfiles nil ; don't create .# files (crashes 'npm start')
         make-backup-files nil))
 
-(use-package autorevert
-  :config
-  (global-auto-revert-mode +1)
-  (setq auto-revert-interval 2
-        auto-revert-check-vc-info t
-        global-auto-revert-non-file-buffers t
-        auto-revert-verbose nil))
+;; (use-package autorevert
+;;   :config
+;;   (global-auto-revert-mode +1)
+;;   (setq auto-revert-interval 2
+;;         auto-revert-check-vc-info t
+;;         global-auto-revert-non-file-buffers t
+;;         auto-revert-verbose nil))
 
 
 (use-package cc-vars
