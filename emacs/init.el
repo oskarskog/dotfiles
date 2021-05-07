@@ -50,9 +50,14 @@
 (straight-use-package 'use-package)
 (require 'straight-x)
 
+
 (use-package diminish
   :straight t
   :demand t)
+
+(use-package desktop
+  :config
+  (desktop-save-mode 1))
 
 ;; disable meta on OSX
 (when (memq window-system '(mac ns x))
