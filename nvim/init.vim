@@ -72,18 +72,17 @@ nnoremap <silent><leader><tab> :b#<cr>
 nnoremap <silent><leader>bd :bd<cr>
 nnoremap <silent><leader>e :BufExplorer<cr>
 nnoremap <silent><leader>o :only<cr>
-nnoremap <silent><leader>gs :Gstatus<cr>
+nnoremap <silent><leader>gg :Gstatus<cr>
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <silent><leader>ff :Files<cr>
+nnoremap <silent><leader>ff :GFiles<cr>
 nnoremap <silent><leader>fr :Rg<cr>
 nnoremap <silent><leader>fs :BLines<cr>
 nnoremap <silent><leader>fb :GBranches<cr>
-nnoremap <silent><leader>fg :GFiles<cr>
 nnoremap <silent><leader>fc :Commands<cr>
 nnoremap <silent><leader>tt :NERDTreeToggle<cr>
 nnoremap <silent><leader>tf :NERDTreeFind<cr>
