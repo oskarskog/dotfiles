@@ -6,10 +6,6 @@ Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'jpalardy/vim-slime'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'mattn/emmet-vim'
 Plug 'morhetz/gruvbox'
@@ -17,10 +13,13 @@ Plug 'mustache/vim-mustache-handlebars', { 'for': ['mustache', 'handlebars'] }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree' 
 Plug 'sheerun/vim-polyglot'
-Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'eemed/sitruuna.vim'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
 
@@ -40,8 +39,7 @@ set hidden
 set mouse=a
 set diffopt+=vertical
 set cursorline
-
-packadd cfilter
+set clipboard=unnamedplus
 
 " lightline show git branch
 let g:lightline = {
@@ -77,11 +75,14 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <silent><leader>ff :GFiles<cr>
-nnoremap <silent><leader>fr :Rg<cr>
-nnoremap <silent><leader>fs :BLines<cr>
-nnoremap <silent><leader>fb :GBranches<cr>
-nnoremap <silent><leader>fc :Commands<cr>
+nnoremap <silent><leader>ff :Telescope git_files<cr>
+nnoremap <silent><leader>fr :Telescope grep_string<cr>
+nnoremap <silent><leader>fR :Telescope live_grep<cr>
+nnoremap <silent><leader>fs :Telescope current_buffer_fuzzy_find<cr>
+nnoremap <silent><leader>fb :Telescope git_branches<cr>
+nnoremap <silent><leader>fc :Telescope commands<cr>
+nnoremap <silent><leader>gs :Telescope git_stash<cr>
+
 nnoremap <silent><leader>tt :NERDTreeToggle<cr>
 nnoremap <silent><leader>tf :NERDTreeFind<cr>
 
@@ -90,57 +91,10 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" slime setup
-let g:slime_target = "tmux"
-let g:slime_paste_file = tempname()
-let g:slime_default_config = {
-      \"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"
-      \}
-
 " insert date in current buffer
 if !exists(":Date")
   command Date :put =strftime('%b %d, %Y')
 endif
-
-" FZF
-let g:fzf_layout = { 'down': '40%' }
-let $FZF_DEFAULT_OPTS='--reverse --bind ctrl-a:select-all'
-autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-
-let g:fzf_branch_actions = {
-      \ 'checkout': {
-      \   'prompt': 'Checkout> ',
-      \   'execute': 'echo system("{git} checkout {branch}")',
-      \   'multiple': v:false,
-      \   'keymap': 'enter',
-      \   'required': ['branch'],
-      \   'confirm': v:false,
-      \ },
-      \ 'track': {
-      \   'prompt': 'Track> ',
-      \   'execute': 'echo system("{git} checkout --track {branch}")',
-      \   'multiple': v:false,
-      \   'keymap': 'ctrl-t',
-      \   'required': ['branch'],
-      \   'confirm': v:false,
-      \ },
-      \ 'create': {
-      \   'prompt': 'Create> ',
-      \   'execute': 'echo system("{git} checkout -b {input}")',
-      \   'multiple': v:false,
-      \   'keymap': 'ctrl-b',
-      \   'required': ['input'],
-      \   'confirm': v:false,
-      \ },
-      \ 'delete': {
-      \   'prompt': 'Delete> ',
-      \   'execute': 'echo system("{git} branch -D {branch}")',
-      \   'multiple': v:true,
-      \   'keymap': 'ctrl-d',
-      \   'required': ['branch'],
-      \   'confirm': v:true,
-      \ },
-      \}
 
 " Coc
 source ~/.config/nvim/coc-init.vim
@@ -148,7 +102,6 @@ augroup hbs_ft
   au!
   autocmd BufNewFile,BufRead *.hbs set ft=handlebars
 augroup end
-
 
 highlight CocHighlightText guibg='#5c6366' guifg='white'
 
@@ -167,3 +120,5 @@ let g:coc_global_extensions = [
 
 " NERDTree
 let g:NERDTreeWinSize=50
+
+command! Scratch lua require'tools'.makeScratch()
