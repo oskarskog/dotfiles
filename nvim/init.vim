@@ -37,8 +37,6 @@ set updatetime=300
 set wildmenu
 set noswapfile
 set hidden
-set nu
-set relativenumber
 set mouse=a
 set diffopt+=vertical
 set cursorline
@@ -72,7 +70,7 @@ nnoremap <silent><leader><tab> :b#<cr>
 nnoremap <silent><leader>bd :bd<cr>
 nnoremap <silent><leader>e :BufExplorer<cr>
 nnoremap <silent><leader>o :only<cr>
-nnoremap <silent><leader>gg :Gstatus<cr>
+nnoremap <silent><leader>gg :Git<cr>
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
