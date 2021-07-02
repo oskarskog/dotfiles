@@ -41,7 +41,25 @@ require('packer').startup(function()
 
 	use {
 		'nvim-telescope/telescope.nvim',
-		requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'}
+		requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
+		config = function()
+			require('telescope').setup({
+					extensions = {
+						project = {
+							base_dir = '~/d/src',
+							max_depth = 3
+						}
+					}
+				})
+		end
+	}
+
+	use {
+		'nvim-telescope/telescope-project.nvim',
+		requires = {'nvim-telescope/telescope.nvim'},
+		config = function()
+			require('telescope').load_extension('project')
+		end
 	}
 
 	use {
@@ -87,6 +105,8 @@ utils.opt('o', 'hidden', true)
 utils.opt('o', 'mouse', 'a')
 utils.opt('o', 'diffopt', vim.o.diffopt .. ',vertical')
 utils.opt('o', 'clipboard', vim.o.clipboard .. 'unnamedplus')
+utils.opt('o', 'autochdir', true)
+utils.opt('o', 'hlsearch', false)
 utils.opt('w', 'cursorline', true)
 utils.opt('w', 'signcolumn', 'yes')
 utils.opt('b', 'swapfile', false)
@@ -118,6 +138,7 @@ utils.map('n', '<leader>gs', ':Telescope git_stash<cr>')
 utils.map('n', '<leader>fv', ':Telescope vim_options<cr>')
 utils.map('n', '<leader>fk', ':Telescope keymaps<cr>')
 utils.map('n', '<leader>fo', ':Telescope oldfiles<cr>')
+utils.map('n', '<leader>fp', ":lua require'telescope'.extensions.project.project{}<cr>")
 utils.map('n', 'gr', 				 ':Telescope coc references<cr>')
 utils.map('n', '<leader>ca', ':Telescope coc code_actions<cr>')
 utils.map('n', '<leader>cd', ':Telescope coc diagnostics<cr>')
@@ -170,3 +191,5 @@ require('feline').setup({
 		components = components,
 		properties = properties
 	})
+
+
