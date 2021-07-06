@@ -27,19 +27,9 @@ require('packer').startup(function()
 	use {
 		'famiu/feline.nvim',
 		requires = {'kyazdani42/nvim-web-devicons'},
-        config = function() 
-            require'nvim-web-devicons'.setup {default = true}
-            local components = require('feline.presets').default.components
-            local properties = require('feline.presets').default.properties
-            table.remove(components.left.active, 4)
-            table.remove(components.left.active, 4)
-            table.insert(components.right.active, 1, {provider='position'})
-
-            require('feline').setup({
-                components = components,
-                properties = properties
-            })
-        end
+    config = function() 
+      require'nvim-web-devicons'.setup {default = true}
+    end
 	}
 
 	use {
@@ -72,8 +62,7 @@ require('packer').startup(function()
 			require('telescope').setup({
 					extensions = {
 						project = {
-							base_dir = '~/d/src',
-							max_depth = 3
+              base_dirs = { '~/d/src' }
 						}
 					}
 				})
@@ -138,13 +127,13 @@ local utils = require('utils')
 utils.opt('o', 'background', 'dark')
 utils.opt('o', 'termguicolors', true)
 vim.cmd 'colorscheme sitruuna'
+vim.opt.clipboard:prepend {'unnamedplus'}
 
 utils.opt('o', 'updatetime', 300)
 utils.opt('o', 'wildmenu', true)
 utils.opt('o', 'hidden', true)
 utils.opt('o', 'mouse', 'a')
 utils.opt('o', 'diffopt', vim.o.diffopt .. ',vertical')
-utils.opt('o', 'clipboard', vim.o.clipboard .. 'unnamedplus')
 utils.opt('o', 'autochdir', true)
 utils.opt('o', 'hlsearch', false)
 utils.opt('w', 'cursorline', true)
@@ -154,8 +143,8 @@ utils.opt('b', 'fileencoding', 'utf8')
 vim.g.NERDTreeWinSize=50
 
 -- Keymaps
-local config_dir = '$HOME/.config/nvim/'
-local config_file = config_dir .. 'init.lua'
+local config_dir = fn.stdpath('config')
+local config_file = config_dir .. '/init.lua'
 utils.map('n', '<leader>fed', 	':e ' .. config_file .. '<CR>')
 utils.map('n', '<leader>feR', 	':luafile ' .. config_file .. '<CR>')
 utils.map('n', '<leader><tab>', ':b#<CR>')
@@ -168,9 +157,10 @@ utils.map('n', '<C-j>', '<C-w>j')
 utils.map('n', '<C-k>', '<C-w>k')
 utils.map('n', '<C-l>', '<C-w>l')
 
-utils.map('n', '<leader>ff', ':Telescope git_files<cr>')
-utils.map('n', '<leader>fr', ':Telescope grep_string<cr>')
-utils.map('n', '<leader>fR', ':Telescope live_grep<cr>')
+utils.map('n', '<leader>ff', ":lua require'project'.project_git_files()<cr>")
+utils.map('n', '<leader>fF', ":lua require'project'.project_files()<cr>")
+utils.map('n', '<leader>fr', ":lua require'project'.project_grep_string()<cr>")
+utils.map('n', '<leader>fR', ":lua require'project'.project_live_grep()<cr>")
 utils.map('n', '<leader>fs', ':Telescope current_buffer_fuzzy_find<cr>')
 utils.map('n', '<leader>fb', ':Telescope git_branches<cr>')
 utils.map('n', '<leader>fc', ':Telescope commands<cr>')
@@ -189,7 +179,6 @@ utils.map('v', 'ga', ':EasyAlign')
 utils.map('x', 'ga', ':EasyAlign')
 
 utils.map('n', '<leader>\'', '<CMD>lua require("FTerm").toggle()<CR>')
-utils.map('t', '<leader>\'', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
 utils.map('t', '<Esc>', '<C-\\><C-n>')
 
 -- LSP
@@ -205,4 +194,19 @@ vim.g.coc_global_extensions =  {
     'coc-tsserver'
 }
 vim.cmd('highlight CocHighlightText guibg=\'#5c6366\' guifg=\'white\'')
-vim.cmd('source ' .. config_dir .. 'coc-init.vim')
+vim.cmd('source ' .. config_dir .. '/coc-init.vim')
+
+-- Status line
+local feline = require('feline')
+local presets = require('feline.presets')
+local properties = presets.default.properties
+local components = presets.default.components
+table.remove(components.left.active, 4)
+table.remove(components.left.active, 4)
+if table.getn(components.right.active) < 7 then
+  table.insert(components.right.active, 1, {provider = 'position'})
+end
+
+feline.setup({components = components, properties = properties})
+feline.reset_highlights()
+
