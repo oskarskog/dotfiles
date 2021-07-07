@@ -14,108 +14,108 @@ vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile'
 -- Install plugins
 require('packer').startup(function()
 
-	use {
-		'wbthomason/packer.nvim',
-		opt = true
-	}
+  use {
+    'wbthomason/packer.nvim',
+    opt = true
+  }
 
-	use {
-		'fannheyward/telescope-coc.nvim',
-		config = function() require('telescope').load_extension('coc') end
-	}
+  use {
+    'fannheyward/telescope-coc.nvim',
+    config = function() require('telescope').load_extension('coc') end
+  }
 
-	use {
-		'famiu/feline.nvim',
-		requires = {'kyazdani42/nvim-web-devicons'},
+  use {
+    'famiu/feline.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'},
     config = function() 
       require'nvim-web-devicons'.setup {default = true}
     end
-	}
+  }
 
-	use {
-		'mustache/vim-mustache-handlebars',
-		ft = {'html.handlebars'}
-	}
+  use {
+    'mustache/vim-mustache-handlebars',
+    ft = {'html.handlebars'}
+  }
 
-	use {
-		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate',
-        config = function()
-            require('nvim-treesitter.configs').setup({
-                ensure_installed = 'maintained',
-                highlight = {
-                    enable = true
-                }
-            })
-        end
-    }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = 'maintained',
+        highlight = {
+          enable = true
+        }
+      })
+    end
+  }
 
-    use {
-        'neoclide/coc.nvim',
-        branch = 'release'
-    }
+  use {
+    'neoclide/coc.nvim',
+    branch = 'release'
+  }
 
-	use {
-		'nvim-telescope/telescope.nvim',
-		requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
-		config = function()
-			require('telescope').setup({
-					extensions = {
-						project = {
-              base_dirs = { '~/d/src' }
-						}
-					}
-				})
-		end
-	}
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
+    config = function()
+      require('telescope').setup({
+        extensions = {
+          project = {
+            base_dirs = { '~/d/src' }
+          }
+        }
+      })
+    end
+  }
 
-	use {
-		'nvim-telescope/telescope-project.nvim',
-		requires = {'nvim-telescope/telescope.nvim'},
-		config = function()
-			require('telescope').load_extension('project')
-		end
-	}
+  use {
+    'nvim-telescope/telescope-project.nvim',
+    requires = {'nvim-telescope/telescope.nvim'},
+    config = function()
+      require('telescope').load_extension('project')
+    end
+  }
 
-	use {
-		'lewis6991/gitsigns.nvim',
-		requires = {'nvim-lua/plenary.nvim'},
-		config = function() require('gitsigns').setup() end
-	}
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function() require('gitsigns').setup() end
+  }
 
-	use {
-		"numtostr/FTerm.nvim",
-		config = function() require("FTerm").setup() end
-	}
+  use {
+    "numtostr/FTerm.nvim",
+    config = function() require("FTerm").setup() end
+  }
 
-    use {
-        'karb94/neoscroll.nvim',
-        config = function() 
-            require('neoscroll').setup({
-                -- All these keys will be mapped to their corresponding default scrolling animation
-                mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
-                hide_cursor = true,          -- Hide cursor while scrolling
-                stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-                use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-                respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-                cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-                easing_function = nil        -- Default easing function
-            })
-        end
-    }
+  use {
+    'karb94/neoscroll.nvim',
+    config = function() 
+      require('neoscroll').setup({
+        -- All these keys will be mapped to their corresponding default scrolling animation
+        mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>', '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
+        hide_cursor = true,          -- Hide cursor while scrolling
+        stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+        use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+        respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+        easing_function = nil        -- Default easing function
+      })
+    end
+  }
 
-    use 'editorconfig/editorconfig-vim'
-    use 'jiangmiao/auto-pairs'
-    use 'jlanzarotta/bufexplorer'
-    use 'junegunn/vim-easy-align'
-    use 'mattn/emmet-vim'
-    use 'preservim/nerdtree'
-    use 'tpope/vim-commentary'
-    use 'tpope/vim-fugitive'
-    use 'eemed/sitruuna.vim'
-    use 'hrsh7th/vim-vsnip'
-    use 'hrsh7th/vim-vsnip-integ'
-    use 'christoomey/vim-tmux-navigator'
+  use 'editorconfig/editorconfig-vim'
+  use 'jiangmiao/auto-pairs'
+  use 'jlanzarotta/bufexplorer'
+  use 'junegunn/vim-easy-align'
+  use 'mattn/emmet-vim'
+  use 'preservim/nerdtree'
+  use 'tpope/vim-commentary'
+  use 'tpope/vim-fugitive'
+  use 'eemed/sitruuna.vim'
+  use 'hrsh7th/vim-vsnip'
+  use 'hrsh7th/vim-vsnip-integ'
+  use 'christoomey/vim-tmux-navigator'
 end)
 
 -- Settings
@@ -184,14 +184,14 @@ utils.map('t', '<Esc>', '<C-\\><C-n>')
 -- LSP
 vim.g.coc_node_path = fn.expand('~/.nvm/versions/node/v14.15.0/bin/node')
 vim.g.coc_global_extensions =  {
-    'coc-actions',
-    'coc-css',
-    'coc-ember',
-    'coc-highlight',
-    'coc-html',
-    'coc-json',
-    'coc-snippets',
-    'coc-tsserver'
+  'coc-actions',
+  'coc-css',
+  'coc-ember',
+  'coc-highlight',
+  'coc-html',
+  'coc-json',
+  'coc-snippets',
+  'coc-tsserver'
 }
 vim.cmd('highlight CocHighlightText guibg=\'#5c6366\' guifg=\'white\'')
 vim.cmd('source ' .. config_dir .. '/coc-init.vim')
