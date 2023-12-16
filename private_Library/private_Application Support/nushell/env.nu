@@ -62,8 +62,7 @@ $env.EDITOR = nvim
 $env.HOMEBREW_PREFIX = "/opt/homebrew";
 $env.HOMEBREW_CELLAR = "/opt/homebrew/Cellar";
 $env.HOMEBREW_REPOSITORY = "/opt/homebrew";
-# $env.MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
-# $env.INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+
 
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
 $env.PATH = (
@@ -72,6 +71,18 @@ $env.PATH = (
 	| prepend '~/.cargo/bin'
 	| prepend '/opt/homebrew/bin'
 	| prepend '/opt/homebrew/sbin'
+)
+
+$env.MANPATH = (
+  $env.MANPATH
+	| split row (char esep) 
+  | prepend "/opt/homebrew/share/man"
+)
+
+$env.INFOPATH = (
+    $env.MANPATH
+    | split row (char esep) 
+    | prepend "/opt/homebrew/share/info"
 )
 
 zoxide init nushell | save -f ~/.zoxide.nu
