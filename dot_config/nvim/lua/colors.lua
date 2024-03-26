@@ -61,17 +61,17 @@ SetColors = function(theme)
 
   local lua_line = nil
   if theme == 'dark' then
-    vim.cmd[[colorscheme moonfly]]
+    vim.cmd[[colorscheme modus_vivendi]]
+    lua_line = modus_vivendi_line
     -- vim.cmd[[colorscheme modus-vivendi]]
-    -- lua_line = modus_vivendi_line
   else
-    vim.cmd[[colorscheme modus-operandi]]
+    vim.cmd[[colorscheme modus_operandi]]
     lua_line = modus_operandi_line
   end
 
   require('lualine').setup {
     options = {
-      theme = 'moonfly',
+      theme = 'modus',
       component_separators = '|',
       section_separators = { left = '', right = '' },
     },

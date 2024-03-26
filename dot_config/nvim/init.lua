@@ -27,6 +27,28 @@ require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'tjdevries/nlua.nvim'
   use 'tpope/vim-commentary'
+  use { 
+    "miikanissi/modus-themes.nvim",
+    config = function()
+      
+      require("modus-themes").setup({
+        -- Theme comes in two styles `modus_operandi` and `modus_vivendi`
+        -- `auto` will automatically set style based on background set with vim.o.background
+        style = "modus_operandi",
+        variant = "deuteranopia", -- Theme comes in four variants `default`, `tinted`, `deuteranopia`, and `tritanopia`
+        transparent = false, -- Transparent background (as supported by the terminal)
+        dim_inactive = false, -- "non-current" windows are dimmed
+        styles = {
+          -- Style to be applied to different syntax groups
+          -- Value is any valid attr-list value for `:help nvim_set_hl`
+          comments = { italic = true },
+          keywords = { italic = true },
+          functions = {},
+          variables = {},
+        }
+      })
+    end
+  }
   use {
     "LhKipp/nvim-nu",
     requires = {'jose-elias-alvarez/null-ls.nvim'},
