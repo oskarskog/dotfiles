@@ -651,6 +651,10 @@ $env.config = {
 alias vi = nvim
 alias ll = ls --all
 
+register ~/.cargo/bin/nu_plugin_hcl
+register ~/.cargo/bin/nu_plugin_formats
+register ~/.cargo/bin/nu_plugin_query
+
 def "switch project" [] {
   let projects = (ls ~/d/src | get name | to text)
   let selected_project_path = ($projects | fzf)
@@ -672,7 +676,7 @@ def "switch project" [] {
 # Wrapper for op signin
 # Usage: `load-env (wrapped op signin)`
 def "wrapped op signin" [account?: string = 'ecraft'] {
-  let output = (op signin --raw $account)
+  let output = (asdf local 1password-cli 1.12.7; op signin --raw $account)
   { $"OP_SESSION_($account)": $output }
 }
 
@@ -711,13 +715,13 @@ def flink-k8s [] {
 
 def "edit dotfile" [name?: string] {
   let selection = if ($name | is-empty) {
-    chezmoi managed | fzf
+    chezmoi managed | lines | each {|path| $env.HOME | path join $path} | filter {|path| ($path | path type) == file } | to text | fzf
   } else {
     $name
   }
 
   if (not ($selection | is-empty)) {
-    chezmoi edit ($selection | str trim)
+    chezmoi edit ($env.HOME | path join ($selection | str trim))
   }
 }
 
@@ -729,11 +733,15 @@ def "az keyvault search" [keyvault?: string] {
   az keyvault secret show --vault-name $keyvault --name $secret_name | from json | get value
 }
 
-$env.HOMEBREW_NO_INSTALL_UPGRADE = 1
-
-def "fission router" [] {
-  $"(minikube ip):(kubectl -n fission get svc router -o jsonpath='{...nodePort}')"
+def "kubeconfig spendrups tst" [] {
+  { KUBECONFIG: ("/Users/oskarskog/d/src/spendrups-data-platform/terraform2/01-azure-services" | path join spendrups-tst.yaml) }
 }
+
+def "kubeconfig arjo ui" [environment: string] {
+  { KUBECONFIG: ("/Users/oskarskog/d/src/arjo-unified-architecture/terraform-aws/00-aws-resources" | path join $"($environment).kubeconfig") }
+}
+
+$env.HOMEBREW_NO_INSTALL_UPGRADE = 1
 
 source ~/.cache/starship/init.nu
 # source ~/.zoxide.nu
